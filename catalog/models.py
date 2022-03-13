@@ -1,5 +1,7 @@
 from django.db import models
+from django.urls import reverse
 import uuid  # Required for unique car instances
+
 
 class Transmission(models.Model):
     """Model representing transmission type."""

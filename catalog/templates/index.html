@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Rent Cars Home</h1>
+<h2>Динамический контент</h2>
+  <p>В сервисе проката автомобилей имеется следующее количество записей:</p>
+  <ul>
+    <li><strong>Автомобилей:</strong> {{ num_cars }}</li>
+    <li><strong>Экземпляров автомобилей:</strong> {{ num_instances }}</li>
+    <li><strong>Доступно сейчас:</strong> {{ num_instances_available }}</li>
+    <li><strong>Количество представленных брендов:</strong> {{ num_manufacturers }}</li>
+  </ul>
+
+{% endblock %}

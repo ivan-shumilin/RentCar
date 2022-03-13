@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Информация об автомобиле</h1>
+
+{% if object %}
+<ul>
+    <li>{{ cars.manufacturers }} {{ cars.model }}</li>
+    <li>{{ object.carsclass }}</li>
+    <li>{{ object.bodytype }}</li>
+    <li>Трансмиссия:
+        {% for transmission in cars.transmission.all %}
+        {{ transmission }}
+        {% if not forloop.last %},
+        {% endif %}
+        {% endfor %}
+    </li>
+</ul>
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Автомобили в наличии:</h4>
+<!--    reverse lookup  cars.carinstance_set.all -->
+<!--    text-success a-->
+<!--    text-danger d-->
+<!--    text-warning-->
+<!--    Due to be returned:-->
+<!--    text-muted-->
+    {% for copy in cars.carinstance_set.all %}
+        <hr>
+        <p class="{{ {% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}
+        }}">
+            {{ copy.get_status_display }}</p>
+        {% if copy.status != 'a' %}
+        <p>дата возврата: {{ copy.due_back }}</p>
+        {% endif %}
+        <p>{{ copy.id }}</p>
+    {% endfor %}
+
+</div>
+
+{% else %}
+<p>Автомобилей пока нет.</p>
+{% endif %}
+{% endblock %}
