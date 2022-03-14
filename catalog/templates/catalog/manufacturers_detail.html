@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Информация об производители</h1>
+
+{% if object %}
+
+<h2>{{ manufacturers.name }} {{ manufacturers.country }}</h2>
+
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Автомобили производителя в наличии:</h4>
+    <!--    reverse lookup  cars.carinstance_set.all -->
+    <!--    text-success a-->
+    <!--    text-danger d-->
+    <!--    text-warning-->
+    <!--    Due to be returned:-->
+    <!--    text-muted-->
+    {% for copy in manufacturers.cars_set.all %}
+    <hr>
+    <p>{{ copy.model }}</p>
+    {% endfor %}
+
+</div>
+
+{% else %}
+<p>Автомобилей пока нет.</p>
+{% endif %}
+{% endblock %}

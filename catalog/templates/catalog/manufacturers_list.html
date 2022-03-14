@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Бренды автомобилей</h1>
+    {% if manufacturers_list %}
+    <ul>
+      {% for manufacturer in manufacturers_list %}
+      <li>
+<!--           manufacturer.get_absolute_url  -->
+        <a href="{{ manufacturer.get_absolute_url }}">{{ manufacturer.name }}</a> ({{ manufacturer.country }})
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>Брендов пока нет.</p>
+    {% endif %}
+{% endblock %}

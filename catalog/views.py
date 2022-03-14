@@ -14,6 +14,9 @@ def index(request):
     # Доступные книги (статус = 'a')
     num_instances_available = CarInstance.objects.filter(status__exact='a').count()
     num_manufacturers = Manufacturers.objects.count()  # Метод 'all()' применён по умолчанию.
+    # Number of visits to this view, as counted in the session variable.
+    num_visits=request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits+1
 
     # Отрисовка HTML-шаблона index.html с данными внутри
     # переменной контекста context
@@ -21,8 +24,10 @@ def index(request):
         request,
         'index.html',
         context={'num_cars': num_cars, 'num_instances': num_instances,
-                 'num_instances_available': num_instances_available, 'num_manufacturers': num_manufacturers},
+                 'num_instances_available': num_instances_available, 'num_manufacturers': num_manufacturers, 'num_visits':num_visits}, # num_visits appended
     )
+
+
 
 
 # https://docs.djangoproject.com/en/4.0/topics/class-based-views/generic-display/
@@ -34,5 +39,14 @@ class CarsListView(generic.ListView):
 
 class CarsDetailView(generic.DetailView):
     model = Cars
+    paginate_by = 10
+
+
+class ManufacturersListView(generic.ListView):
+    model = Manufacturers
+    paginate_by = 10
+
+class ManufacturersDetailView(generic.DetailView):
+    model = Manufacturers
     paginate_by = 10
 

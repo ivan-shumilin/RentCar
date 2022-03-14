@@ -98,7 +98,7 @@ class Manufacturers(models.Model):
         ordering = ['name', 'country']
 
     def get_absolute_url(self):
-        return reverse('Manufacturer-detail', args=[str(self.id)])
+        return reverse('manufacturers-detail', args=[str(self.id)])
 
     def __str__(self):
         return self.name
