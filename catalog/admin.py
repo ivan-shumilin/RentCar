@@ -26,7 +26,7 @@ class CarsAdmin(admin.ModelAdmin):
 
 @admin.register(CarInstance)
 class CarInstanceAdmin(admin.ModelAdmin):
-    list_display = ('cars', 'due_back', 'status')
+    list_display = ('cars', 'borrower', 'due_back', 'status')
     list_filter = ('status', 'due_back')
 
     fieldsets = (
@@ -34,6 +34,6 @@ class CarInstanceAdmin(admin.ModelAdmin):
             'fields': ('cars', 'id')
         }),
         ('Availability', {
-            'fields': ('status', 'due_back')
+            'fields': ('borrower','status', 'due_back')
         }),
     )

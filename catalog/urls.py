@@ -9,5 +9,6 @@ urlpatterns = [
     path('cars/<pk>', views.CarsDetailView.as_view(), name='cars-detail'),
     path('manufacturers/', views.ManufacturersListView.as_view(), name='manufacturers'),
     path('manufacturers/<pk>', views.ManufacturersDetailView.as_view(), name='manufacturers-detail'),
+    path('mybooks/', views.CarInstanceUserListView.as_view(), name='my-borrowed'),
 ]
 

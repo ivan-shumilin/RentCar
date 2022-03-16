@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Transmission, CarsClass, BodyType, Cars, CarInstance, Manufacturers
 from django.views import generic
 from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     """
@@ -40,6 +41,18 @@ class CarsListView(generic.ListView):
 class CarsDetailView(generic.DetailView):
     model = Cars
     paginate_by = 10
+
+
+class CarInstanceUserListView(LoginRequiredMixin,generic.ListView):
+    """
+    Общий список автомобилей предоставленных в аренду текущему пользователю.
+    """
+    model = CarInstance
+    template_name ='catalog/carinstance_list_borrowed_user.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return CarInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
 
 class ManufacturersListView(generic.ListView):

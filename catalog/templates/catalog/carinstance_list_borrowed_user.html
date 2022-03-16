@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1/>Арендуемые автомобили</h1>
+
+    {% if carinstance_list %}
+    <ul>
+
+      {% for сarinstance in carinstance_list %}
+      <li class="{% if сarinstance.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'cars-detail' сarinstance.cars.pk %}">{{сarinstance.cars.model}}</a> ({{ сarinstance.due_back }})
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>Нет арендованных автомобилей.</p>
+    {% endif %}
+{% endblock %}

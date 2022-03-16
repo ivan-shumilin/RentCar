@@ -87,6 +87,16 @@ class CarInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        # настройка прав доступа
+        permissions = (("can_mark_returned", "Set car as returned"),)
+
+        # проверка просрочена ли аренда авто
+    # декоратор property позволяет добавлять метод setter
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
     def __str__(self):
         return f'{self.cars.manufacturers} {self.cars.model}, ID:{self.id}'
