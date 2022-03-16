@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 import uuid  # Required for unique car instances
+from django.contrib.auth.models import User
+from datetime import date
 
 
 class Transmission(models.Model):
@@ -66,6 +68,7 @@ class CarInstance(models.Model):
     # но через CASCADE отношение.
     cars = models.ForeignKey('Cars', on_delete=models.RESTRICT, null=True)
     due_back = models.DateField(null=True, blank=True)
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
