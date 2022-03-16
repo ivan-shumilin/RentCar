@@ -125,3 +125,6 @@ INTERNAL_IPS = ["127.0.0.1", ]
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+# регистрирует любые письма, отправленные на консоль
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
