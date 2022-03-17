@@ -5,11 +5,10 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 import datetime
 from .forms import RenewCarForm
 from django.contrib.auth.decorators import permission_required
-
 
 
 @permission_required('catalog.can_mark_returned')
@@ -114,23 +113,21 @@ class ManufacturersDetailView(generic.DetailView):
     paginate_by = 10
 
 
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from catalog.models import Cars
+
 
 class CarCreate(CreateView):
     model = Cars
-    fields = ['model', 'manufacturers', 'transmission', 'bodytype',]
+    fields = ['model', 'manufacturers', 'transmission', 'bodytype', ]
     initial = {'bodytype': 'sport'}
 
 
+class CarUpdate(UpdateView):
+    model = Cars
+    fields = ['model', 'manufacturers', 'transmission', 'bodytype', ]
 
 
-
-
-
-
-
-
-
-
-
+class CarDelete(DeleteView):
+    model = Cars
+    success_url = reverse_lazy('cars')  # редирект на страницу cars/

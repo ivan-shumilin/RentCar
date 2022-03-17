@@ -13,6 +13,8 @@ urlpatterns = [
     path('userscars', views.CarInstanceManagerListView.as_view(), name='all-users-cars'),
     path('cars/<pk>/renew/', views.renew_car_manager, name='renew-car-manager'),
     path('cars/create/', views.CarCreate.as_view(), name='car-create'),
+    path('cars/<pk>/update/', views.CarUpdate.as_view(), name='car-update'),
+    path('cars/<pk>/delete/', views.CarDelete.as_view(), name='car-delete'),
 
 ]
 

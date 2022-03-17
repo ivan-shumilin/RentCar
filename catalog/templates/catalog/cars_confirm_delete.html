@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+{% block content%}
+<p>Вы хотите удалить автомобиль из базы даных? {{ cars.manufacturers }}{{ cars.model }}</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Delete">
+</form>
+{% endblock %}
