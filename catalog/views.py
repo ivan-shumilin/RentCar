@@ -116,11 +116,12 @@ class ManufacturersDetailView(generic.DetailView):
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from catalog.models import Cars
 
-
-class CarCreate(CreateView):
+# https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-editing/
+class CarCreate(PermissionRequiredMixin, CreateView):
     model = Cars
     fields = ['model', 'manufacturers', 'transmission', 'bodytype', ]
     initial = {'bodytype': 'sport'}
+    permission_required = 'catalog.can_mark_returned'
 
 
 class CarUpdate(UpdateView):
