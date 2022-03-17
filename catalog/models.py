@@ -90,7 +90,7 @@ class CarInstance(models.Model):
         # настройка прав доступа
         permissions = (("can_mark_returned", "Set car as returned"),)
 
-        # проверка просрочена ли аренда авто
+    # проверка просрочена ли аренда авто
     # декоратор property позволяет добавлять метод setter
     @property
     def is_overdue(self):

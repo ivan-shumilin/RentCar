@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1/>Все автомобили в аренде.</h1>
+    {% if perms.catalog.can_mark_returned %}
+        {% for carinstance in carinstance_list %}
+            <hr>
+            <p>{{ carinstance.cars.manufacturers }}
+               {{ carinstance.cars.model }}
+               ({{ carinstance.due_back }}) -
+               {{ carinstance.borrower }}
+               {% if carinstance.is_overdue %}
+               <mark style="color: red">срок аренды истек!</mark></p>
+               {% endif %}
+        {% endfor %}
+    {% else %}
+    <p>Автомобилий нет</p>
+    {% endif %}
+
+{% endblock %}
