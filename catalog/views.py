@@ -14,25 +14,18 @@ from django.contrib.auth.decorators import permission_required
 @permission_required('catalog.can_mark_returned')
 def renew_car_manager(request, pk):
     """
-    Функция просмотра для обновления определенного CarInstance менеджкром
+    Функция просмотра для обновления определенного CarInstance менеджером
     """
     car_inst = get_object_or_404(CarInstance, pk=pk)
 
     if request.method == 'POST':
-
         # Создём экземпляр формы и заполняем его данными из запроса (binding):
         form = RenewCarForm(request.POST)
-
         # Check if the form is valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
             car_inst.due_back = form.cleaned_data['renewal_date']
             car_inst.save()
-
-            # redirect to a new URL:
             return HttpResponseRedirect(reverse('all-users-cars'))
-
-    # If this is a GET (or any other method) create the default form.
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
         form = RenewCarForm(initial={'renewal_date': proposed_renewal_date, })
@@ -116,6 +109,7 @@ class ManufacturersDetailView(generic.DetailView):
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from catalog.models import Cars
 
+
 # https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-editing/
 class CarCreate(PermissionRequiredMixin, CreateView):
     model = Cars
@@ -124,11 +118,13 @@ class CarCreate(PermissionRequiredMixin, CreateView):
     permission_required = 'catalog.can_mark_returned'
 
 
-class CarUpdate(UpdateView):
+class CarUpdate(PermissionRequiredMixin, UpdateView):
     model = Cars
     fields = ['model', 'manufacturers', 'transmission', 'bodytype', ]
+    permission_required = 'catalog.can_mark_returned'
 
 
-class CarDelete(DeleteView):
+class CarDelete(PermissionRequiredMixin, DeleteView):
     model = Cars
     success_url = reverse_lazy('cars')  # редирект на страницу cars/
+    permission_required = 'catalog.can_mark_returned'
