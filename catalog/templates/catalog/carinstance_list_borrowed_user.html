@@ -10,7 +10,7 @@
       <li class="{% if сarinstance.is_overdue %}text-danger{% endif %}">
         <a href="{% url 'cars-detail' сarinstance.cars.pk %}">
             {{сarinstance.cars.model}}
-        </a> ({{ сarinstance.due_back }})
+        </a> ({{ сarinstance.date_start }})
       </li>
       {% endfor %}
     </ul>

@@ -30,7 +30,7 @@
         }}">
             {{ copy.get_status_display }}</p>
         {% if copy.status != 'a' %}
-        <p>дата возврата: {{ copy.due_back }}</p>
+        <p>дата возврата: {{ copy.date_start }}</p>
         {% endif %}
         <p>{{ copy.id }}</p>
     {% endfor %}

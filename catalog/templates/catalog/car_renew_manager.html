@@ -3,7 +3,7 @@
 
     <h1>Renew: {{carinst.book.title}}</h1>
     <p>Borrower: {{carinst.borrower}}</p>
-    <p {% if carinst.is_overdue %} class="text-danger"{% endif %}>Due date: {{carinst.due_back}}</p>
+    <p {% if carinst.is_overdue %} class="text-danger"{% endif %}>Due date: {{carinst.date_start}}</p>
 
     <form action="" method="post">
         {% csrf_token %}

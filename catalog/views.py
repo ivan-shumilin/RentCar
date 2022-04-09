@@ -7,8 +7,9 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 import datetime
-from .forms import RenewCarForm
+from .forms import RenewCarForm, FindCarForm
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Q
 
 
 @permission_required('catalog.can_mark_returned')
@@ -23,7 +24,7 @@ def renew_car_manager(request, pk):
         form = RenewCarForm(request.POST)
         # Check if the form is valid:
         if form.is_valid():
-            car_inst.due_back = form.cleaned_data['renewal_date']
+            car_inst.date_start = form.cleaned_data['renewal_date']
             car_inst.save()
             return HttpResponseRedirect(reverse('all-users-cars'))
     else:
@@ -33,10 +34,37 @@ def renew_car_manager(request, pk):
     return render(request, 'catalog/car_renew_manager.html', {'form': form, 'carinst': car_inst})
 
 
+def search_free_cars(form_date_start, form_date_finish):
+    free_carInstance = CarInstance.objects.filter(
+           Q(status = 'a') |
+           Q (date_finish__lt=form_date_start) |
+           Q (date_start__gt=form_date_finish))
+    free_car = []
+    for car in free_carInstance:
+        free_car.append(f'{str(car.cars.manufacturers)} {str(car.cars.model)}')
+    return list(set(free_car))
+
 def index(request):
     """
     Функция отображения для домашней страницы сайта.
     """
+    # форма поиска автомобиля
+    errors = None
+    if request.method == 'POST':
+        user_form = FindCarForm(request.POST)
+        if user_form.is_valid():
+            free_cars = search_free_cars(user_form.cleaned_data["date_start"], user_form.cleaned_data["date_finish"])
+        return render(request, 'index.html', {'user_form': user_form,
+                                              'errors': errors,
+                                              'free_cars': free_cars})
+    user_form = FindCarForm()
+    # Отрисовка HTML-шаблона index.html с данными внутри
+    return render(request, 'index.html', {'user_form': user_form, 'errors': errors})
+
+    # Отрисовка HTML-шаблона index.html с данными внутри
+    # переменной контекста context
+
+def statistic(request):
     # Генерация "количеств" некоторых главных объектов
     # https://docs.djangoproject.com/en/4.0/ref/models/querysets/#field-lookups
     num_cars = Cars.objects.all().count()
@@ -47,16 +75,14 @@ def index(request):
     # Number of visits to this view, as counted in the session variable.
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
+    context = {'num_cars': num_cars,
+               'num_instances': num_instances,
+               'num_instances_available': num_instances_available,
+               'num_manufacturers': num_manufacturers,
+               'num_visits': num_visits }
 
     # Отрисовка HTML-шаблона index.html с данными внутри
-    # переменной контекста context
-    return render(
-        request,
-        'index.html',
-        context={'num_cars': num_cars, 'num_instances': num_instances,
-                 'num_instances_available': num_instances_available, 'num_manufacturers': num_manufacturers,
-                 'num_visits': num_visits},  # num_visits appended
-    )
+    return render(request, 'catalog/statistic.html', context)
 
 
 # https://docs.djangoproject.com/en/4.0/topics/class-based-views/generic-display/
@@ -80,7 +106,7 @@ class CarInstanceUserListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return CarInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        return CarInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('date_start')
 
 
 class CarInstanceManagerListView(PermissionRequiredMixin, generic.ListView):
@@ -93,7 +119,7 @@ class CarInstanceManagerListView(PermissionRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return CarInstance.objects.filter(status__exact='o').order_by('due_back')
+        return CarInstance.objects.filter(status__exact='o').order_by('date_start')
 
 
 class ManufacturersListView(generic.ListView):

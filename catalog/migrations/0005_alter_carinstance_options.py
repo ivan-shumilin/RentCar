@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='carinstance',
-            options={'ordering': ['due_back'], 'permissions': (('can_mark_returned', 'Set book as returned'),)},
+            options={'ordering': ['date_start'], 'permissions': (('can_mark_returned', 'Set book as returned'),)},
         ),
     ]

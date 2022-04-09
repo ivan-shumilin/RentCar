@@ -67,7 +67,8 @@ class CarInstance(models.Model):
     # указывает ссылка, разрешено, если он также ссылается на другой объект, который удаляется в той же операции,
     # но через CASCADE отношение.
     cars = models.ForeignKey('Cars', on_delete=models.RESTRICT, null=True)
-    due_back = models.DateField(null=True, blank=True)
+    date_start = models.DateField(null=True, blank=True)
+    date_finish = models.DateField(null=True, blank=True)
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     LOAN_STATUS = (
@@ -86,7 +87,7 @@ class CarInstance(models.Model):
     )
 
     class Meta:
-        ordering = ['due_back']
+        ordering = ['date_start']
         # настройка прав доступа
         permissions = (("can_mark_returned", "Set car as returned"),)
 
@@ -94,7 +95,7 @@ class CarInstance(models.Model):
     # декоратор property позволяет добавлять метод setter
     @property
     def is_overdue(self):
-        if self.due_back and date.today() > self.due_back:
+        if self.date_start and date.today() > self.date_start:
             return True
         return False
 

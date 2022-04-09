@@ -1,9 +1,12 @@
 import datetime
 
 from django import forms
+from django.forms import ModelForm, DateInput
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from catalog.models import CarInstance
+
 
 class RenewCarForm(forms.Form):
     renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
@@ -28,27 +31,14 @@ class CmsForm(forms.Form):
     content = forms.CharField(label='Введите содержание', max_length=5000)
 
 
+class FindCarForm(forms.ModelForm):
+    date_start = forms.DateField(label='Дата и время выдачи', widget=forms.DateTimeInput(
+        attrs={'placeholder': 'Дата и время выдачи', 'type': 'date',}))
 
+    date_finish = forms.DateField(label='Дата и время возврата', widget=forms.DateInput(
+        attrs={'placeholder': 'Дата и время возврата', 'type': 'date',}))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # attrs = {'class': 'form-control'}
+    class Meta:
+        model = CarInstance
+        fields = ('date_start', 'date_finish')

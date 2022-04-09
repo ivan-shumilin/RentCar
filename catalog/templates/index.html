@@ -2,16 +2,24 @@
 
 {% block content %}
 <h1>Rent Cars Home</h1>
-<h2>Динамический контент</h2>
-  <p>В сервисе проката автомобилей имеется следующее количество записей:</p>
-  <ul>
-    <li><strong>Автомобилей:</strong> {{ num_cars }}</li>
-    <li><strong>Экземпляров автомобилей:</strong> {{ num_instances }}</li>
-    <li><strong>Доступно сейчас:</strong> {{ num_instances_available }}</li>
-    <li><strong>Количество представленных брендов:</strong> {{ num_manufacturers }}</li>
-    <li><strong>Количество визитов:</strong> {{ num_visits }}</li>
 
-
-  </ul>
-
+<form class="form-signin" method="post">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {% for f in user_form %}
+            <label class="sr-only" for="{{ f.id_for_label }}">
+                {{f.label}}:
+            </label>
+            {{ f }}
+    {% endfor %}
+    <button class="btn btn-xl btn-primary btn-block" type="submit" style="margin-top: 15px;">Найти</button>
+    {% if errors %}
+        <div style="color: #ab2437;">{{ errors }}</div>
+    {% endif %}
+</form>
+<ul>
+{% for car in free_cars %}
+    <li>{{ car }}</li>
+{% endfor %}
+</ul>
 {% endblock %}

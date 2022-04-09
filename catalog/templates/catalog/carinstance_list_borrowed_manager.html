@@ -7,7 +7,7 @@
             <hr>
             <p>{{ carinstance.cars.manufacturers }}
                {{ carinstance.cars.model }}
-               ({{ carinstance.due_back }}) -
+               ({{ carinstance.date_start }})
                {{ carinstance.borrower }}
                {% if carinstance.is_overdue %}
                <mark style="color: red">срок аренды истек!</mark></p>

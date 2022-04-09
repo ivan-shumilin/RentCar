@@ -55,12 +55,12 @@ class Migration(migrations.Migration):
             name='CarInstance',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, help_text='Unique ID for this particular car across whole catelog RentCar', primary_key=True, serialize=False)),
-                ('due_back', models.DateField(blank=True, null=True)),
+                ('date_start', models.DateField(blank=True, null=True)),
                 ('status', models.CharField(blank=True, choices=[('m', 'Maintenance'), ('o', 'On loan'), ('a', 'Available'), ('r', 'Reserved')], default='m', help_text='Car availability', max_length=1)),
                 ('cars', models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='catalog.cars')),
             ],
             options={
-                'ordering': ['due_back'],
+                'ordering': ['date_start'],
             },
         ),
     ]
