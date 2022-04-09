@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('statistic/', views.statistic, name='statistic'),
     path('cars/', views.CarsListView.as_view(), name='cars'),
     path('cars/<pk>', views.CarsDetailView.as_view(), name='cars-detail'),
     path('manufacturers/', views.ManufacturersListView.as_view(), name='manufacturers'),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('cars/create/', views.CarCreate.as_view(), name='car-create'),
     path('cars/<pk>/update/', views.CarUpdate.as_view(), name='car-update'),
     path('cars/<pk>/delete/', views.CarDelete.as_view(), name='car-delete'),
+
 
 ]
 
