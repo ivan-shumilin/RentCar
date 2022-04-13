@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from datetime import date
 
 
+
+
 class Transmission(models.Model):
     """Model representing transmission type."""
     transmission = models.CharField(max_length=200, help_text='Enter the type of transmission')
@@ -18,6 +20,24 @@ class CarsClass(models.Model):
 
     def __str__(self):
         return self.name
+
+class Orders(models.Model):
+    """Model representing the armor of a particular car"""
+    # UUIDField https://docs.djangoproject.com/en/4.0/ref/models/fields/
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          help_text='Unique ID for this  order across whole catalog Rent Car')
+    car_instance = models.ForeignKey('CarInstance', on_delete=models.SET_NULL, null=True)
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    email = models.EmailField(null=True)
+    date_start = models.DateField(null=True, blank=True)
+    date_finish = models.DateField(null=True, blank=True)
+    place_start = models.CharField(null=True, blank=True, max_length=500)
+    place_finish = models.CharField(null=True, blank=True, max_length=500)
+    comments = models.CharField(null=True, max_length=5000)
+
+    def __str__(self):
+        return f'{self.id} {self.email}'
+
 
 
 class BodyType(models.Model):
@@ -39,6 +59,7 @@ class Cars(models.Model):
     carsclass = models.ForeignKey('CarsClass', on_delete=models.SET_NULL, null=True, help_text='Choose a class for this car')
     bodytype = models.ForeignKey('BodyType', on_delete=models.SET_NULL, null=True, help_text='Select body type')
     transmission = models.ManyToManyField(Transmission, help_text='the type of transmission')
+    price = models.IntegerField(null=True)
 
     class Meta:
         ordering = ['model', 'manufacturers']
@@ -67,37 +88,41 @@ class CarInstance(models.Model):
     # указывает ссылка, разрешено, если он также ссылается на другой объект, который удаляется в той же операции,
     # но через CASCADE отношение.
     cars = models.ForeignKey('Cars', on_delete=models.RESTRICT, null=True)
-    date_start = models.DateField(null=True, blank=True)
-    date_finish = models.DateField(null=True, blank=True)
-    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    # date_start = models.DateField(null=True, blank=True)
+    # date_finish = models.DateField(null=True, blank=True)
+    # borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
-    LOAN_STATUS = (
-        ('m', 'Maintenance'),
-        ('o', 'On loan'),
-        ('a', 'Available'),
-        ('r', 'Reserved'),
-    )
 
-    status = models.CharField(
-        max_length=1,
-        choices=LOAN_STATUS,
-        blank=True,
-        default='m',
-        help_text='Car availability',
-    )
+    # LOAN_STATUS = (
+    #     ('m', 'Maintenance'),
+    #     ('o', 'On loan'),
+    #     ('a', 'Available'),
+    #     ('r', 'Reserved'),
+    # )
+    #
+    # status = models.CharField(
+    #     max_length=1,
+    #     choices=LOAN_STATUS,
+    #     blank=True,
+    #     default='m',
+    #     help_text='Car availability',
+    # )
 
-    class Meta:
-        ordering = ['date_start']
-        # настройка прав доступа
-        permissions = (("can_mark_returned", "Set car as returned"),)
+    # class Meta:
+    #     ordering = ['date_start']
+    #     # настройка прав доступа
+    #     permissions = (("can_mark_returned", "Set car as returned"),)
+
+
+
 
     # проверка просрочена ли аренда авто
     # декоратор property позволяет добавлять метод setter
-    @property
-    def is_overdue(self):
-        if self.date_start and date.today() > self.date_start:
-            return True
-        return False
+    # @property
+    # def is_overdue(self):
+    #     if self.date_start and date.today() > self.date_start:
+    #         return True
+    #     return False
 
     def __str__(self):
         return f'{self.cars.manufacturers} {self.cars.model}, ID:{self.id}'
