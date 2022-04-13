@@ -1,10 +1,11 @@
 from django.test import TestCase
-
+from catalog import views
 
 from catalog.models import Cars
 from django.urls import reverse
 
 class CarsListViewTest(TestCase):
+    fixtures = ['catalog/tests/fixtures/test_bd.json']
 
     @classmethod
     def test_view_url_exists_at_desired_location(self):

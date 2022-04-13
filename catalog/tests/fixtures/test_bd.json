@@ -1,0 +1,186 @@
+[
+  {
+    "model": "catalog.transmission",
+    "pk": 1,
+    "fields": {
+      "transmission": "Manual"
+    }
+  },
+  {
+    "model": "catalog.transmission",
+    "pk": 2,
+    "fields": {
+      "transmission": "Automatic"
+    }
+  },
+  {
+    "model": "catalog.transmission",
+    "pk": 3,
+    "fields": {
+      "transmission": "CVT"
+    }
+  },
+  {
+    "model": "catalog.carsclass",
+    "pk": 2,
+    "fields": {
+      "name": "Economy class"
+    }
+  },
+  {
+    "model": "catalog.carsclass",
+    "pk": 3,
+    "fields": {
+      "name": "Business class"
+    }
+  },
+  {
+    "model": "catalog.orders",
+    "pk": "06604482-b012-41af-89f7-462e5d477cfc",
+    "fields": {
+      "car_instance": "73ce9b9b-636b-40cf-a54e-b89c7de1efe2",
+      "borrower": null,
+      "email": "shumilin.i.v@gmail.com",
+      "date_start": "2022-04-23",
+      "date_finish": "2022-04-30",
+      "place_start": null,
+      "place_finish": null,
+      "comments": "машина белого цвета"
+    }
+  },
+  {
+    "model": "catalog.orders",
+    "pk": "1a41e255-7489-472f-9c3a-ee3a2190ec77",
+    "fields": {
+      "car_instance": "73ce9b9b-636b-40cf-a54e-b89c7de1efe2",
+      "borrower": null,
+      "email": "shumilin4.i.v@gmail.com",
+      "date_start": "2022-04-25",
+      "date_finish": "2022-04-30",
+      "place_start": null,
+      "place_finish": null,
+      "comments": "машина белого цвета"
+    }
+  },
+  {
+    "model": "catalog.orders",
+    "pk": "cab86ea0-4510-4c5e-afdd-ca7b5acbb7c5",
+    "fields": {
+      "car_instance": "8f64d414-c88b-44a0-875a-7551f99c9e69",
+      "borrower": 3,
+      "email": "shumilin2.i.v@gmail.com",
+      "date_start": "2022-04-09",
+      "date_finish": "2022-04-19",
+      "place_start": "Москва",
+      "place_finish": "Стамбул",
+      "comments": "машина белого цвета"
+    }
+  },
+  {
+    "model": "catalog.bodytype",
+    "pk": 1,
+    "fields": {
+      "type": "sedan"
+    }
+  },
+  {
+    "model": "catalog.bodytype",
+    "pk": 2,
+    "fields": {
+      "type": "кроссовер"
+    }
+  },
+  {
+    "model": "catalog.cars",
+    "pk": 1,
+    "fields": {
+      "model": "Solaris",
+      "manufacturers": 2,
+      "carsclass": 2,
+      "bodytype": 1,
+      "price": 1000,
+      "transmission": [
+        2
+      ]
+    }
+  },
+  {
+    "model": "catalog.cars",
+    "pk": 2,
+    "fields": {
+      "model": "Sonata",
+      "manufacturers": 2,
+      "carsclass": 3,
+      "bodytype": 1,
+      "price": 1500,
+      "transmission": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "catalog.cars",
+    "pk": 3,
+    "fields": {
+      "model": "Creta",
+      "manufacturers": 2,
+      "carsclass": 2,
+      "bodytype": 2,
+      "price": 2000,
+      "transmission": [
+        2
+      ]
+    }
+  },
+  {
+    "model": "catalog.carinstance",
+    "pk": "67226249-a75b-4c01-88e8-07ef4c46ed3b",
+    "fields": {
+      "cars": 1
+    }
+  },
+  {
+    "model": "catalog.carinstance",
+    "pk": "73ce9b9b-636b-40cf-a54e-b89c7de1efe2",
+    "fields": {
+      "cars": 2
+    }
+  },
+  {
+    "model": "catalog.carinstance",
+    "pk": "8f64d414-c88b-44a0-875a-7551f99c9e69",
+    "fields": {
+      "cars": 1
+    }
+  },
+  {
+    "model": "catalog.carinstance",
+    "pk": "9e9f7648-c44e-486e-8a8c-76c69ef76dbf",
+    "fields": {
+      "cars": 3
+    }
+  },
+  {
+    "model": "catalog.carinstance",
+    "pk": "c7a25d60-1390-49ce-9270-ffa70dbed2bf",
+    "fields": {
+      "cars": 1
+    }
+  },
+  {
+    "model": "catalog.carinstance",
+    "pk": "c7f833be-fbb2-4dac-9850-663610bf9344",
+    "fields": {
+      "cars": 3
+    }
+  },
+  {
+    "model": "catalog.manufacturers",
+    "pk": 2,
+    "fields": {
+      "name": "Hyundai",
+      "country": "South Korea"
+    }
+  }
+]
