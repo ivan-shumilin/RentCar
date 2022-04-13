@@ -67,7 +67,7 @@
     "pk": "cab86ea0-4510-4c5e-afdd-ca7b5acbb7c5",
     "fields": {
       "car_instance": "8f64d414-c88b-44a0-875a-7551f99c9e69",
-      "borrower": 3,
+      "borrower": null,
       "email": "shumilin2.i.v@gmail.com",
       "date_start": "2022-04-09",
       "date_finish": "2022-04-19",

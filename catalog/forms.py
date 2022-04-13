@@ -31,7 +31,7 @@ class CmsForm(forms.Form):
     content = forms.CharField(label='Введите содержание', max_length=5000)
 
 
-class FindCarForm(forms.ModelForm):
+class FindCarsForm(forms.ModelForm):
     date_start = forms.DateField(label='Дата и время выдачи', widget=forms.DateTimeInput(
         attrs={'placeholder': 'Дата и время выдачи', 'type': 'date',}))
 

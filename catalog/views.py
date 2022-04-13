@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 import datetime
-from .forms import RenewCarForm, FindCarForm
+from .forms import RenewCarForm, FindCarsForm
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
 
@@ -57,6 +57,14 @@ def search_free_cars(form_date_start, form_date_finish):
     free_car = set([car_instance.cars for car_instance in free_car_instance ])
     return free_car
 
+def is_valid_custom(form_date_start, form_date_finish):
+    errors = []
+    if form_date_start < form_date_finish:
+        errors.append('Дата начала аренды должна быть раньше даты конца аренды.')
+    if form_date_start < datetime.date.today():
+        errors.append('Извините, пока мы не можем отправить машину в прошлое.')
+    return errors
+
 
 
 def index(request):
@@ -64,16 +72,18 @@ def index(request):
     Функция отображения для домашней страницы сайта.
     """
     # форма поиска автомобиля
-    errors = None
+    errors = []
+    free_cars = []
     if request.method == 'POST':
-        user_form = FindCarForm(request.POST)
+        user_form = FindCarsForm(request.POST)
         if user_form.is_valid():
-
-            free_cars = search_free_cars(user_form.cleaned_data["date_start"], user_form.cleaned_data["date_finish"])
-        return render(request, 'index.html', {'user_form': user_form,
+            errors = is_valid_custom(user_form.cleaned_data["date_start"], user_form.cleaned_data["date_finish"])
+            if len(errors) == 0:
+                free_cars = search_free_cars(user_form.cleaned_data["date_start"], user_form.cleaned_data["date_finish"])
+            return render(request, 'index.html', {'user_form': user_form,
                                               'errors': errors,
                                               'free_cars': free_cars})
-    user_form = FindCarForm()
+    user_form = FindCarsForm()
     # Отрисовка HTML-шаблона index.html с данными внутри
     return render(request, 'index.html', {'user_form': user_form, 'errors': errors})
 

@@ -4,6 +4,7 @@ from catalog import views
 from catalog.models import Cars
 from django.urls import reverse
 
+
 class CarsListViewTest(TestCase):
     fixtures = ['catalog/tests/fixtures/test_bd.json']
 
@@ -20,3 +21,6 @@ class CarsListViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'catalog/cars_list.html')
 
+
+class CarsListViewTest(TestCase):
+    fixtures = ['catalog/tests/fixtures/test_bd.json']
