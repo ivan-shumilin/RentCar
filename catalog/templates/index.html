@@ -19,7 +19,7 @@
 </form>
 <ul>
 {% for car in free_cars %}
-    <li>{{ car }}</li>
+    <li>{{ car.manufacturers }} {{ car.model }}</li>
 {% endfor %}
 </ul>
 {% endblock %}

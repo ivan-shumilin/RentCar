@@ -36,25 +36,14 @@ from django.db.models import Q
 
 def search_free_cars(form_date_start, form_date_finish):
     ''' Возвращает список моделей автомобилей которые свободны в эти даты'''
-    # free_carInstance = CarInstance.objects.filter(
-    #        Q (date_finish__lt=form_date_start) |
-    #        Q (date_start__gt=form_date_finish))
-    # cars = Cars.objacts.all() # все авто
-    # # car_instance = CarInstance.objects.filter()
-    # for car in cars:
-    #     cars_instances = CarInstance.objects.filter()
-    #     for car_instance in cars_instances:
-    #
-    # free_car = []
     free_car_instance = []
     cars = Cars.objects.all() # все авто
     for car in cars: # берем каждое авто
         for carinstance in car.carinstance_set.all(): # получаем все экземпляры этого авто и проходим по каждому
             orders = Orders.objects.filter(car_instance=carinstance) # полчаем сет заказов для конкретного экземпляра авто
-            if len(orders) == 0:
+            if len(orders) == 0:  # если нет заказов, добавляем экземпляр и переходим к следующему
                 free_car_instance.append(carinstance)
                 continue
-
             # проверяем свобен ли экземпляр авто в принятые даты
             for order in orders:
                 order_date_start = order.date_start
@@ -64,7 +53,9 @@ def search_free_cars(form_date_start, form_date_finish):
                 if latest_start > earliest_finish:
                     free_car_instance.append(carinstance)
                     break
-    return free_car_instance
+    # модели авто у которых есть свободные экземпляры на указанные даты
+    free_car = set([car_instance.cars for car_instance in free_car_instance ])
+    return free_car
 
 
 
