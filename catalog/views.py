@@ -34,9 +34,9 @@ from django.db.models import Q
 #     return render(request, 'catalog/car_renew_manager.html', {'form': form, 'carinst': car_inst})
 
 
-def search_free_cars(form_date_start, form_date_finish):
+def search_free_cars(form_date_start: datetime, form_date_finish: datetime):
     ''' Возвращает список моделей автомобилей которые свободны в эти даты'''
-    free_car_instance = []
+    free_car_instance: list = []
     cars = Cars.objects.all() # все авто
     for car in cars: # берем каждое авто
         for carinstance in car.carinstance_set.all(): # получаем все экземпляры этого авто и проходим по каждому
@@ -59,7 +59,7 @@ def search_free_cars(form_date_start, form_date_finish):
 
 def is_valid_custom(form_date_start, form_date_finish):
     errors = []
-    if form_date_start < form_date_finish:
+    if form_date_start > form_date_finish:
         errors.append('Дата начала аренды должна быть раньше даты конца аренды.')
     if form_date_start < datetime.date.today():
         errors.append('Извините, пока мы не можем отправить машину в прошлое.')

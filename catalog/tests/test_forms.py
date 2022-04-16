@@ -2,25 +2,20 @@ from django.test import TestCase
 from catalog import views
 
 from catalog.models import Cars
+from catalog.forms import FindCarsForm
 from django.urls import reverse
+import datetime
+import pdb
 
 
-class CarsListViewTest(TestCase):
+class FindCarsFormTest(TestCase):
     fixtures = ['catalog/tests/fixtures/test_bd.json']
 
-    def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get('/catalog/cars/')
-        self.assertEqual(resp.status_code, 200)
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse('cars'))
-        self.assertEqual(resp.status_code, 200)
-
-    def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('cars'))
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'catalog/cars_list.html')
+    def test_is_valid_custom(self):
+        response = self.client.post('/catalog/', data={'date_start': '2022-17-04', 'date_finish': '2022-19-04'})
+        self.assertEqual(200, response.status_code)
+        # pdb.set_trace()
+        # Поиск в html
+        # self.assertIn('Извините, пока мы не можем отправить машину в прошлое.', response.content.decode('utf-8'))
 
 
-class CarsListViewTest(TestCase):
-    fixtures = ['catalog/tests/fixtures/test_bd.json']
